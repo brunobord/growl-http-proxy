@@ -45,7 +45,18 @@ Then run the proxy with the following command::
 
     python growl-http-proxy.py
 
+There, you have it. Using the `curl` command you've seen on the top of this
+document, you can test the server.
 
+At the moment, it only can send notification to the '127.0.0.1' Growl daemon.
+
+TODO
+====
+
+* Allow simple data transfer, not only JSON, for the poor guys with a
+  JSON-unaware programming language.
+* giving you the opportunity to send notification via your web browser, through
+  the homepage.
 
 Why that?
 =========
@@ -59,3 +70,13 @@ along with data.
 If you want to send messages from a remote client, you can use this HTTP proxy
 as an interface. It'd even help you bypass filtering proxies, if you configure
 this server to talk via a well-known port (80, for example).
+
+License
+=======
+
+This source code is published under the terms of the WTFPL. According to its only
+"term and condition", it states what you can or cannot do:
+
+     0. You just DO WHAT THE FUCK YOU WANT TO.
+
+For more details, please refer to : http://sam.zoy.org/wtfpl/
