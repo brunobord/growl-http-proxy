@@ -34,6 +34,19 @@ values for the optional keys.
         "notification": "update"
     }
 
+Run the server
+==============
+
+Clone this repository and install the requirements::
+
+    pip install -r requirements.txt
+
+Then run the proxy with the following command::
+
+    python growl-http-proxy.py
+
+
+
 Why that?
 =========
 
