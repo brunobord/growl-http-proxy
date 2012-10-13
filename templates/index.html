@@ -17,7 +17,7 @@
 </head>
 <body>
 	<section>
-		<form method="post" action="{{ url_for('send') }}">
+		<form id="myform">
 			<p><label for="title">Title:</label> <input type="text" name="title" id="title">
 			<p><label for="message">Message:</label>
 				<textarea name="message" id="message" cols="30" rows="10"></textarea>
@@ -31,8 +31,75 @@
 				</select>
 			<p><label for="sticky">Sticky:</label>
 				<input type="checkbox" name="sticky" id="sticky">
-			<p><input type="submit" value="Send">
+			<p>
+				<input type="button" value="Send" onclick="javascript:send();">
 		</form>
 	</section>
+
+<script type="text/javascript">
+
+function createXMLHttp() {
+  //Initializing our object
+  var xmlHttp = null;
+  //if XMLHttpRequest is available then creating and returning it
+  if (typeof(XMLHttpRequest) != undefined) {
+    xmlHttp = new XMLHttpRequest;
+    return xmlHttp;
+  //if window.ActiveXObject is available than the user is using IE...so we have to create the newest version XMLHttp object
+  } else if (window.ActiveXObject) {
+    var ieXMLHttpVersions = ['MSXML2.XMLHttp.5.0', 'MSXML2.XMLHttp.4.0', 'MSXML2.XMLHttp.3.0', 'MSXML2.XMLHttp', 'Microsoft.XMLHttp'];
+    //In this array we are starting from the first element (newest version) and trying to create it. If there is an
+    //exception thrown we are handling it (and doing nothing ^^)
+    for (var i = 0; i < ieXMLHttpVersions.length; i++) {
+        try {
+            xmlHttp = new ActiveXObject(ieXMLHttpVersions[i]);
+            return xmlHttp;
+        } catch (e) {
+        }
+    }
+  }
+}
+
+function form_info(f) {
+   var dataArray = [];
+   //Getting the data from all elements in the form
+   for (var i = 0; i < f.elements.length; i++) {
+
+   	 if (f.elements[i].type == 'button')
+   	 	continue;
+
+     var encodedData = encodeURIComponent(f.elements[i].name);
+     encodedData += "=";
+     if (f.elements[i].type == 'checkbox') {
+     	if (f.elements[i].checked)
+	     	encodedData += 'on';
+     } else {
+	     encodedData += encodeURIComponent(f.elements[i].value);
+     }
+     dataArray.push(encodedData);
+   }
+   return dataArray.join("&");
+ }
+
+function send() {
+	var form = document.getElementById('myform');
+	var xmlHttp = createXMLHttp();
+	var data = form_info(form);
+	xmlHttp.open('post', '{{ url_for("send") }}', true);
+	xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xmlHttp.send(data);
+	xmlHttp.onreadystatechange = function() {
+	if (xmlHttp.readyState === 4) {
+	 	if (xmlHttp.status === 200) {
+	    	alert(xmlHttp.responseText);
+		} else {
+    		alert('Error: ' + xmlHttp.responseText);
+	    }
+	} else {
+	  //still loading
+	}
+	};
+}
+</script>
 </body>
 </html>
