@@ -4,6 +4,9 @@
 	<meta charset="UTF-8">
 	<title>Growl HTTP Proxy</title>
 	<style type="text/css">
+		body {
+			font-family: Helvetica, Arial, sans-serif;
+		}
 		section {
 			width: 960px;
 			margin: auto;
@@ -13,9 +16,16 @@
 			display: block;
 			float: left;
 		}
+		.ack {
+			text-align: center;
+			display: none;
+			background-color: #bef;
+			padding: .2em;
+		}
 	</style>
 </head>
 <body>
+	<section id="ack" class="ack"></section>
 	<section>
 		<form id="myform">
 			<p><label for="title">Title:</label> <input type="text" name="title" id="title">
@@ -32,74 +42,17 @@
 			<p><label for="sticky">Sticky:</label>
 				<input type="checkbox" name="sticky" id="sticky">
 			<p>
-				<input type="button" value="Send" onclick="javascript:send();">
+				<input type="button" value="Send" id="btn-submit">
 		</form>
 	</section>
 
+<script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js')}}"></script>
 <script type="text/javascript">
-
-function createXMLHttp() {
-  //Initializing our object
-  var xmlHttp = null;
-  //if XMLHttpRequest is available then creating and returning it
-  if (typeof(XMLHttpRequest) != undefined) {
-    xmlHttp = new XMLHttpRequest;
-    return xmlHttp;
-  //if window.ActiveXObject is available than the user is using IE...so we have to create the newest version XMLHttp object
-  } else if (window.ActiveXObject) {
-    var ieXMLHttpVersions = ['MSXML2.XMLHttp.5.0', 'MSXML2.XMLHttp.4.0', 'MSXML2.XMLHttp.3.0', 'MSXML2.XMLHttp', 'Microsoft.XMLHttp'];
-    //In this array we are starting from the first element (newest version) and trying to create it. If there is an
-    //exception thrown we are handling it (and doing nothing ^^)
-    for (var i = 0; i < ieXMLHttpVersions.length; i++) {
-        try {
-            xmlHttp = new ActiveXObject(ieXMLHttpVersions[i]);
-            return xmlHttp;
-        } catch (e) {
-        }
-    }
-  }
-}
-
-function form_info(f) {
-   var dataArray = [];
-   //Getting the data from all elements in the form
-   for (var i = 0; i < f.elements.length; i++) {
-
-   	 if (f.elements[i].type == 'button')
-   	 	continue;
-
-     var encodedData = encodeURIComponent(f.elements[i].name);
-     encodedData += "=";
-     if (f.elements[i].type == 'checkbox') {
-     	if (f.elements[i].checked)
-	     	encodedData += 'on';
-     } else {
-	     encodedData += encodeURIComponent(f.elements[i].value);
-     }
-     dataArray.push(encodedData);
-   }
-   return dataArray.join("&");
- }
-
-function send() {
-	var form = document.getElementById('myform');
-	var xmlHttp = createXMLHttp();
-	var data = form_info(form);
-	xmlHttp.open('post', '{{ url_for("send") }}', true);
-	xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	xmlHttp.send(data);
-	xmlHttp.onreadystatechange = function() {
-	if (xmlHttp.readyState === 4) {
-	 	if (xmlHttp.status === 200) {
-	    	alert(xmlHttp.responseText);
-		} else {
-    		alert('Error: ' + xmlHttp.responseText);
-	    }
-	} else {
-	  //still loading
-	}
-	};
-}
+$('#btn-submit').click(function() {
+	$.post('{{ url_for("send") }}', $('#myform').serialize(), function(data) {
+		$('#ack').html(data).show();
+	});
+});
 </script>
 </body>
 </html>
