@@ -26,7 +26,7 @@ def send():
     icon_path = DEFAULT_ICON_PATH
     icon = Growl.Image.imageFromPath(icon_path)
     notification = data.get('notification') or 'update'
-    priority = data.get('priority') or 1
+    priority = int(data.get('priority')) or 1
     send_notification(data.get('title'), data.get('message'),
         sticky, icon, notification, priority)
     return 'Message sent\n'

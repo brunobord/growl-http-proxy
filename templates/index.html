@@ -3,6 +3,17 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Growl HTTP Proxy</title>
+	<style type="text/css">
+		section {
+			width: 960px;
+			margin: auto;
+		}
+		label {
+			width: 100px;
+			display: block;
+			float: left;
+		}
+	</style>
 </head>
 <body>
 	<section>
@@ -10,6 +21,14 @@
 			<p><label for="title">Title:</label> <input type="text" name="title" id="title">
 			<p><label for="message">Message:</label>
 				<textarea name="message" id="message" cols="30" rows="10"></textarea>
+			<p><label for="priority">Priority:</label>
+				<select name="priority" id="priority">
+					<option value="-2">-2</option>
+					<option value="-1">-1</option>
+					<option value="0">0</option>
+					<option value="1" selected="selected">1</option>
+					<option value="2">2</option>
+				</select>
 			<p><input type="submit" value="Send">
 		</form>
 	</section>
