@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, render_template
 import Growl
 import os
 app = Flask(__name__)
@@ -34,7 +34,7 @@ def send():
 
 @app.route('/', methods=['GET'])
 def index():
-    return "Wrong method. Request must be use the 'POST' method\n"
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run()
