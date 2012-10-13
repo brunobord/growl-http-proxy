@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, abort
 import Growl
 import os
 app = Flask(__name__)
@@ -17,12 +17,17 @@ def send_notification(title, message, sticky, icon, notification, priority):
 
 @app.route('/', methods=['POST'])
 def send():
-    sticky = request.json.get('sticky') or False
+    data = request.json or request.form or {}
+
+    if 'title' not in data or 'message' not in data:
+        abort(400)  # Bad request
+
+    sticky = data.get('sticky') or False
     icon_path = DEFAULT_ICON_PATH
     icon = Growl.Image.imageFromPath(icon_path)
-    notification = request.json.get('notification') or 'update'
-    priority = request.json.get('priority') or 1
-    send_notification(request.json.get('title'), request.json.get('message'),
+    notification = data.get('notification') or 'update'
+    priority = data.get('priority') or 1
+    send_notification(data.get('title'), data.get('message'),
         sticky, icon, notification, priority)
     return 'Message sent\n'
 

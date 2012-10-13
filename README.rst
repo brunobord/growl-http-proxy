@@ -13,6 +13,10 @@ have to do would be to send a HTTP request like this:
     $ curl -X POST http://127.0.0.1:5000/ -H "Content-Type: application/json" \
         -d '{"title": "My title", "message": "What an interesting message..."}'
 
+Or, if you don't want to send JSON::
+
+    $ curl -X POST --data "title=My+title&message=My+nice+Message" http://127.0.0.1:5000
+
 The growl-http-proxy will pass it to your Growl server and will display a nice
 notification.
 
@@ -53,8 +57,6 @@ At the moment, it only can send notification to the '127.0.0.1' Growl daemon.
 TODO
 ====
 
-* Allow simple data transfer, not only JSON, for the poor guys with a
-  JSON-unaware programming language.
 * giving you the opportunity to send notification via your web browser, through
   the homepage.
 * Send icons (bas64 encoding would be the most convenient, methinks)
