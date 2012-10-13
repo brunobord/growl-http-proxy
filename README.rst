@@ -54,11 +54,12 @@ document, you can test the server.
 
 At the moment, it only can send notification to the '127.0.0.1' Growl daemon.
 
+Alternatively, you may point your browser to the following address:
+http://127.0.0.1:5000/ and send your notification via the HTML form.
+
 TODO
 ====
 
-* giving you the opportunity to send notification via your web browser, through
-  the homepage.
 * Send icons (bas64 encoding would be the most convenient, methinks)
 
 Why that?
