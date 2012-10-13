@@ -57,6 +57,7 @@ TODO
   JSON-unaware programming language.
 * giving you the opportunity to send notification via your web browser, through
   the homepage.
+* Send icons (bas64 encoding would be the most convenient, methinks)
 
 Why that?
 =========
