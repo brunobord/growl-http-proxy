@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+import argparse
 from flask import Flask, request, abort, render_template
 import Growl
 import os
@@ -37,4 +40,7 @@ def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run()
+    parser = argparse.ArgumentParser('Growl HTTP Proxy')
+    parser.add_argument('-d', '--debug', action="store_true", default=False)
+    args = parser.parse_args()
+    app.run(debug=args.debug)
